@@ -4,7 +4,6 @@ import cascading.flow.FlowProcess;
 import cascading.operation.BaseOperation;
 import cascading.operation.Function;
 import cascading.operation.FunctionCall;
-import cascading.operation.OperationCall;
 import cascading.tuple.Fields;
 import cascading.tuple.TupleEntry;
 
@@ -14,14 +13,14 @@ import cascading.tuple.TupleEntry;
 public class EmailChangeFunction extends BaseOperation implements Function {
     private Domains toDomain;
 
-    public EmailChangeFunction(Domains newDomain) {
+    EmailChangeFunction(Domains newDomain) {
         super(Fields.ARGS);
         toDomain = newDomain;
     }
 
-    @Override
-    public void prepare(FlowProcess flowProcess, OperationCall operationCall) {
-        System.out.println("prepare");
+    EmailChangeFunction(Domains newDomain, String s) {
+        super(3, new Fields("first_name", "email"));
+        toDomain = newDomain;
     }
 
     @Override
@@ -29,26 +28,19 @@ public class EmailChangeFunction extends BaseOperation implements Function {
         TupleEntry entry = functionCall.getArguments();
         TupleEntry outEntry = new TupleEntry(entry);
 
+        //extracting old and new email
         String initialEmail = entry.getString("email");
         String initialDomain = initialEmail.split("\\@")[1].split("\\.")[0];
         String finalEmail = initialEmail.replace(initialDomain, toDomain.getDomain());
 
-        System.out.println("initialDomain = " + initialDomain);
+        //setting new email
+        entry.setString("email", finalEmail);
 
-        System.out.println("finalEmail = " + finalEmail);
-
-
-        outEntry.setString("email", finalEmail);
-
-        functionCall.getOutputCollector().add(outEntry);
+        functionCall.getOutputCollector().add(entry);
 
     }
 
-    @Override
-    public void cleanup(FlowProcess flowProcess, OperationCall operationCall) {
-        System.out.println("cleanup");
-    }
-
+    //defining email domains
     public enum Domains {
         GOOGLE("gmail"),
         MICROSOFT("hotmail"),

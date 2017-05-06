@@ -1,5 +1,6 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <!-- only required libraries mentioned. not even build details because its meant to be a tutorial an there will be many main functions -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ramzavil</groupId>
     <artifactId>ramzavil</artifactId>
