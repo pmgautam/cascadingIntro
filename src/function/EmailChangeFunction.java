@@ -30,13 +30,16 @@ public class EmailChangeFunction extends BaseOperation implements Function {
 
         //extracting old and new email
         String initialEmail = entry.getString("email");
+
+        System.out.println("initialEmail = " + initialEmail);
+
         String initialDomain = initialEmail.split("\\@")[1].split("\\.")[0];
         String finalEmail = initialEmail.replace(initialDomain, toDomain.getDomain());
 
         //setting new email
-        entry.setString("email", finalEmail);
+        outEntry.setString("email", finalEmail);
 
-        functionCall.getOutputCollector().add(entry);
+        functionCall.getOutputCollector().add(outEntry);
 
     }
 
